@@ -3,13 +3,19 @@ const ColorPreference = require('../models/ColorPreference');
 
 const getSimilarColor = (hex) => {
     const color = chroma(hex);
-    const hsl = color.hsl();
-    return chroma.hsl(
-        hsl[0],
-        Math.min(1, hsl[1] + 0.1),
-        Math.min(1, hsl[2] + 0.1)
-    ).hex();
+    const [h, s, l] = color.hsl();
+
+    const hueShift = (Math.random() < 0.5 ? -1 : 1) * (10 + Math.random() * 10);
+    const newHue = (h + hueShift + 360) % 360;
+
+    const lightnessShift = (Math.random() < 0.5 ? -1 : 1) * (0.05 + Math.random() * 0.05);
+    const newLightness = Math.min(1, Math.max(0, l + lightnessShift));
+
+    const newSaturation = Math.min(1, Math.max(0, s + (Math.random() - 0.5) * 0.1));
+
+    return chroma.hsl(newHue, newSaturation, newLightness).hex();
 };
+
 
 const getNonComplementaryColor = (hex) => {
     const base = chroma(hex);
