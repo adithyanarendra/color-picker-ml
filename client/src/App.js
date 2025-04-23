@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
+
+
 
 function App() {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    axios.get('/')
-      .then(response => {
-        setMessage(response.data);
-      })
-      .catch(error => {
-        console.log('Error fetching data:', error);
-      });
-  }, []);
   return (
-    <div className="App">
-      <h1>{message}</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
